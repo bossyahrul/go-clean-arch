@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	_customLogger "github.com/bxcodec/go-clean-arch/log"
 	"log"
 	"net/url"
 	"time"
@@ -67,6 +68,8 @@ func main() {
 	timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
 	au := _articleUcase.NewArticleUsecase(ar, authorRepo, timeoutContext)
 	_articleHttpDelivery.NewArticleHandler(e, au)
+
+	_customLogger.InitLogger()
 
 	log.Fatal(e.Start(viper.GetString("server.address")))
 }

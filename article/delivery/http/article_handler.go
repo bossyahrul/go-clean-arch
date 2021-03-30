@@ -1,6 +1,7 @@
 package http
 
 import (
+	"github.com/bxcodec/go-clean-arch/log"
 	"net/http"
 	"strconv"
 
@@ -34,6 +35,7 @@ func NewArticleHandler(e *echo.Echo, us domain.ArticleUsecase) {
 
 // FetchArticle will fetch the article based on given params
 func (a *ArticleHandler) FetchArticle(c echo.Context) error {
+	log.Log.Debug("test logger baru")
 	numS := c.QueryParam("num")
 	num, _ := strconv.Atoi(numS)
 	cursor := c.QueryParam("cursor")
