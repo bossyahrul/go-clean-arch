@@ -99,4 +99,25 @@ func NewLogrusLogger() Logger {
 }
 ```
 
-Setelah semua konfigurasi wrapper dan impl-nya selesai. Terakhir adalah menginit log di file `main.go` agar instance logrus dan semua confignya terload.
+Setelah semua konfigurasi wrapper dan impl-nya selesai. Terakhir adalah menginit log di file `main.go` agar instance logrus dan semua confignya terload, 
+```go
+import (
+	//  import lain
+    _customLogger "github.com/bxcodec/go-clean-arch/log"
+    //  import lain
+)
+
+
+func func main() {
+	//  proses lain ...
+    _customLogger.InitLogger()
+    //  proses lain ...
+}
+```
+
+Dan untuk memakai lognya, tinggal menambahkan line berikut di project.
+
+```go
+//  daftar method level log ada di interface `Logger`
+log.Log.Debug("test logger baru")
+```
