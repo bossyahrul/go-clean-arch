@@ -1,57 +1,67 @@
 package log
 
-import "github.com/sirupsen/logrus"
+import (
+	"fmt"
+	"github.com/sirupsen/logrus"
+	"path"
+	"runtime"
+)
 
 func NewLogrusLogger() Logger {
 	logrusLogger := logrus.New()
 	logrusLogger.SetLevel(logrus.TraceLevel)
+	logrusLogger.SetReportCaller(true)
 	logrusLogger.SetFormatter(&logrus.TextFormatter{
-		DisableColors: false,
 		FullTimestamp: true,
+		DisableColors: false,
+		CallerPrettyfier: func(f *runtime.Frame) (string, string) {
+			filename := path.Base(f.File)
+			return fmt.Sprintf("%s()", f.Function), fmt.Sprintf("%s:%d", filename, f.Line)
+		},
 	})
-	return &loggerWrapper{logrusLogger: logrusLogger}
+	return &LoggerWrapper{LogrusLogger: logrusLogger}
 }
 
-type loggerWrapper struct {
-	logrusLogger *logrus.Logger
+type LoggerWrapper struct {
+	LogrusLogger *logrus.Logger
 }
 
-func (logger *loggerWrapper) Info(args ...interface{}) {
-	logger.logrusLogger.Info(args)
+func (logger *LoggerWrapper) Info(args ...interface{}) {
+	logger.LogrusLogger.Info(args)
 }
 
-func (logger *loggerWrapper) Debug(args ...interface{}) {
-	logger.logrusLogger.Debug(args)
+func (logger *LoggerWrapper) Debug(args ...interface{}) {
+	logger.LogrusLogger.Debug(args)
 }
 
-func (logger *loggerWrapper) Errorf(format string, args ...interface{}) {
-	logger.logrusLogger.Errorf(format, args)
+func (logger *LoggerWrapper) Errorf(format string, args ...interface{}) {
+	logger.LogrusLogger.Errorf(format, args)
 }
 
-func (logger *loggerWrapper) Fatalf(format string, args ...interface{}) {
-	logger.logrusLogger.Fatalf(format, args)
+func (logger *LoggerWrapper) Fatalf(format string, args ...interface{}) {
+	logger.LogrusLogger.Fatalf(format, args)
 }
 
-func (logger *loggerWrapper) Fatal(args ...interface{}) {
-	logger.logrusLogger.Fatal(args)
+func (logger *LoggerWrapper) Fatal(args ...interface{}) {
+	logger.LogrusLogger.Fatal(args)
 }
 
-func (logger *loggerWrapper) Infof(format string, args ...interface{}) {
-	logger.logrusLogger.Infof(format, args)
+func (logger *LoggerWrapper) Infof(format string, args ...interface{}) {
+	logger.LogrusLogger.Infof(format, args)
 }
 
-func (logger *loggerWrapper) Warnf(format string, args ...interface{}) {
-	logger.logrusLogger.Warnf(format, args)
+func (logger *LoggerWrapper) Warnf(format string, args ...interface{}) {
+	logger.LogrusLogger.Warnf(format, args)
 }
 
-func (logger *loggerWrapper) Debugf(format string, args ...interface{}) {
-	logger.logrusLogger.Debugf(format, args)
+func (logger *LoggerWrapper) Debugf(format string, args ...interface{}) {
+	logger.LogrusLogger.Debugf(format, args)
 }
 
-func (logger *loggerWrapper) Printf(format string, args ...interface{}) {
-	logger.logrusLogger.Infof(format, args)
+func (logger *LoggerWrapper) Printf(format string, args ...interface{}) {
+	logger.LogrusLogger.Infof(format, args)
 }
 
-func (logger *loggerWrapper) Println(args ...interface{}) {
-	logger.logrusLogger.Info(args, "\n")
+func (logger *LoggerWrapper) Println(args ...interface{}) {
+	logger.LogrusLogger.Info(args, "\n")
 }

@@ -1,9 +1,10 @@
 module github.com/bxcodec/go-clean-arch
 
-go 1.12
+go 1.15
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
+	github.com/banzaicloud/logrus-runtime-formatter v0.0.0-20190729070250-5ae5475bae5e // indirect
 	github.com/bxcodec/faker v1.4.2
 	github.com/fsnotify/fsnotify v1.4.7 // indirect
 	github.com/go-playground/locales v0.12.1 // indirect
@@ -23,7 +24,6 @@ require (
 	github.com/spf13/jwalterweatherman v0.0.0-20180109140146-7c0cea34c8ec // indirect
 	github.com/spf13/pflag v1.0.1 // indirect
 	github.com/spf13/viper v1.0.2
-	github.com/stretchr/objx v0.1.0 // indirect
 	github.com/stretchr/testify v1.2.2
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect

@@ -4,8 +4,11 @@ import (
 	"database/sql"
 	"fmt"
 	_customLogger "github.com/bxcodec/go-clean-arch/log"
+	"github.com/sirupsen/logrus"
 	"log"
 	"net/url"
+	"path"
+	"runtime"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -71,5 +74,16 @@ func main() {
 
 	_customLogger.InitLogger()
 
+	log2 := logrus.New()
+	log2.SetReportCaller(true)
+	log2.SetLevel(logrus.TraceLevel)
+	log2.SetFormatter(&logrus.TextFormatter{
+		FullTimestamp: true,
+		DisableColors: false,
+		CallerPrettyfier: func(f *runtime.Frame) (string, string) {
+			filename := path.Base(f.File)
+			return fmt.Sprintf("%s()", f.Function), fmt.Sprintf("%s:%d", filename, f.Line)
+		},
+	})
 	log.Fatal(e.Start(viper.GetString("server.address")))
 }
