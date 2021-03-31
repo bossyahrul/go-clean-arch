@@ -99,7 +99,7 @@ func NewLogrusLogger() Logger {
 }
 ```
 
-Setelah semua konfigurasi wrapper dan impl-nya selesai. Terakhir adalah menginit log di file `main.go` agar instance logrus dan semua confignya terload, 
+Dengan begini, kalau nanti ada perubahan untuk mengganti tools logging dari logrus ke yang lain. Tinggal merubah di impl package `log`, tanpa harus berdarah-darah mengubah semua logging di seluruh package. Setelah semua konfigurasi wrapper dan impl-nya selesai. Terakhir adalah menginit log di file `main.go` agar instance logrus dan semua confignya terload, 
 ```go
 import (
 	//  import lain
