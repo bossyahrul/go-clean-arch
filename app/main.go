@@ -3,12 +3,13 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"log"
 	"net/url"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
 
 	_articleHttpDelivery "github.com/bxcodec/go-clean-arch/article/delivery/http"
@@ -16,6 +17,7 @@ import (
 	_articleRepo "github.com/bxcodec/go-clean-arch/article/repository/mysql"
 	_articleUcase "github.com/bxcodec/go-clean-arch/article/usecase"
 	_authorRepo "github.com/bxcodec/go-clean-arch/author/repository/mysql"
+	_ "github.com/bxcodec/go-clean-arch/docs"
 )
 
 func init() {
@@ -30,6 +32,20 @@ func init() {
 	}
 }
 
+// @title Go Clean Arch - Articles API Documentattion
+// @version 1.0
+// @description APIs for articles.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host petstore.swagger.io
+// @BasePath /v2
 func main() {
 	dbHost := viper.GetString(`database.host`)
 	dbPort := viper.GetString(`database.port`)
@@ -61,6 +77,9 @@ func main() {
 	e := echo.New()
 	middL := _articleHttpDeliveryMiddleware.InitMiddleware()
 	e.Use(middL.CORS)
+
+	e.GET("/api-docs/swagger/*", echoSwagger.WrapHandler)
+
 	authorRepo := _authorRepo.NewMysqlAuthorRepository(dbConn)
 	ar := _articleRepo.NewMysqlArticleRepository(dbConn)
 

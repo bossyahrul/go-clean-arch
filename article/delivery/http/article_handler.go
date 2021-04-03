@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	validator "gopkg.in/go-playground/validator.v9"
 
@@ -33,6 +33,15 @@ func NewArticleHandler(e *echo.Echo, us domain.ArticleUsecase) {
 }
 
 // FetchArticle will fetch the article based on given params
+// @Summary Show a account
+// @Description get string by ID
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} domain.Article
+// @Failure 400,404 {object} domain.Article
+// @Failure 500 {object} domain.Article
+// @Failure default {object} domain.Article
+// @Router /articles [get]
 func (a *ArticleHandler) FetchArticle(c echo.Context) error {
 	numS := c.QueryParam("num")
 	num, _ := strconv.Atoi(numS)
