@@ -29,3 +29,6 @@ lint:
 	./bin/golangci-lint run ./...
 
 .PHONY: clean install unittest build docker run stop vendor lint-prepare lint
+
+swagger:
+	swag init -d ./app --parseDependency

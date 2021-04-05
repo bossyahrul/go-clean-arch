@@ -32,16 +32,24 @@ func NewArticleHandler(e *echo.Echo, us domain.ArticleUsecase) {
 	e.DELETE("/articles/:id", handler.Delete)
 }
 
-// FetchArticle will fetch the article based on given params
-// @Summary Show a account
-// @Description get string by ID
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} domain.Article
-// @Failure 400,404 {object} domain.Article
-// @Failure 500 {object} domain.Article
-// @Failure default {object} domain.Article
+// FetchArticle godoc
+// @Summary fetch article example
+// @description This is the first line
+// @description This is the second line
+// @description And so forth.
+// @Tags article
+// @Accept json
+// @Produce json
+// @Param num query int true "Number of articles"
+// @Param cursor query int true "Cursor"
+// @Param enumstring query string false "string enums" Enums(A, B, C)
+// @Success 200 {array} domain.Article
+// @Failure 400 {string} string "ok"
+// @Failure 404 {string} string "ok"
+// @Failure 500 {string} string "ok"
 // @Router /articles [get]
+// @Security ApiKeyAuth
+// @Security OAuth2Implicit[admin, write]
 func (a *ArticleHandler) FetchArticle(c echo.Context) error {
 	numS := c.QueryParam("num")
 	num, _ := strconv.Atoi(numS)

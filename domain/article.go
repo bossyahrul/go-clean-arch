@@ -13,7 +13,11 @@ type Article struct {
 	Author    Author    `json:"author"`
 	UpdatedAt time.Time `json:"updated_at"`
 	CreatedAt time.Time `json:"created_at"`
-}
+	// Sort order:
+	// * asc - Ascending, from A to Z.
+	// * desc - Descending, from Z to A.
+	Order string `enums:"asc,desc"`
+} //@name GetArticlesResponse
 
 // ArticleUsecase represent the article's usecases
 type ArticleUsecase interface {

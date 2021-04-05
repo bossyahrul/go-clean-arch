@@ -35,43 +35,81 @@ var doc = `{
     "paths": {
         "/articles": {
             "get": {
-                "description": "get string by ID",
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    },
+                    {
+                        "OAuth2Implicit": [
+                            "admin",
+                            "write"
+                        ]
+                    }
+                ],
+                "description": "This is the first line\nThis is the second line\nAnd so forth.",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Show a account",
+                "tags": [
+                    "article"
+                ],
+                "summary": "fetch article example",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Number of articles",
+                        "name": "num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Cursor",
+                        "name": "cursor",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "A",
+                            "B",
+                            "C"
+                        ],
+                        "type": "string",
+                        "description": "string enums",
+                        "name": "enumstring",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Article"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/GetArticlesResponse"
+                            }
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/domain.Article"
+                            "type": "string"
                         }
                     },
                     "404": {
-                        "description": "Bad Request",
+                        "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/domain.Article"
+                            "type": "string"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/domain.Article"
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/domain.Article"
+                            "type": "string"
                         }
                     }
                 }
@@ -79,7 +117,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "domain.Article": {
+        "GetArticlesResponse": {
             "type": "object",
             "required": [
                 "content",
@@ -97,6 +135,14 @@ var doc = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "order": {
+                    "description": "Sort order:\n* asc - Ascending, from A to Z.\n* desc - Descending, from Z to A.",
+                    "type": "string",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
                 },
                 "title": {
                     "type": "string"
@@ -123,6 +169,53 @@ var doc = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        },
+        "BasicAuth": {
+            "type": "basic"
+        },
+        "OAuth2AccessCode": {
+            "type": "oauth2",
+            "flow": "accessCode",
+            "authorizationUrl": "https://example.com/oauth/authorize",
+            "tokenUrl": "https://example.com/oauth/token",
+            "scopes": {
+                "admin": " Grants read and write access to administrative information"
+            }
+        },
+        "OAuth2Application": {
+            "type": "oauth2",
+            "flow": "application",
+            "tokenUrl": "https://example.com/oauth/token",
+            "scopes": {
+                "admin": " Grants read and write access to administrative information",
+                "write": " Grants write access"
+            }
+        },
+        "OAuth2Implicit": {
+            "type": "oauth2",
+            "flow": "implicit",
+            "authorizationUrl": "https://example.com/oauth/authorize",
+            "scopes": {
+                "admin": " Grants read and write access to administrative information",
+                "write": " Grants write access"
+            }
+        },
+        "OAuth2Password": {
+            "type": "oauth2",
+            "flow": "password",
+            "tokenUrl": "https://example.com/oauth/token",
+            "scopes": {
+                "admin": " Grants read and write access to administrative information",
+                "read": " Grants read access",
+                "write": " Grants write access"
+            }
+        }
     }
 }`
 
@@ -137,12 +230,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "1.0",
-	Host:        "petstore.swagger.io",
-	BasePath:    "/v2",
+	Version:     "",
+	Host:        "",
+	BasePath:    "",
 	Schemes:     []string{},
-	Title:       "Go Clean Arch - Articles API Documentattion",
-	Description: "APIs for articles.",
+	Title:       "",
+	Description: "This is the first line\nThis is the second line\nAnd so forth.",
 }
 
 type s struct{}
